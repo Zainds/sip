@@ -35,12 +35,12 @@ fun MarkerPage() {
         zoom = 12.0
     }
 
-    val operaMarkerState = rememberMarkerState( //depok
+    val operaMarkerState = rememberMarkerState(
         geoPoint = Coordinates.opera,
         rotation = 90f
     )
     
-    val charlieMarkerState = rememberMarkerState( //jakarta
+    val charlieMarkerState = rememberMarkerState(
         geoPoint = Coordinates.charlie,
         rotation = 90f
     )
