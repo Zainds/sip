@@ -56,7 +56,7 @@ fun Screen2() {
         }
         Column {
             Text(text = "О себе:", fontSize = 30.sp)
-            Text(text = "----------------", fontSize = 30.sp)
+            Text(text = "-----------------", fontSize = 30.sp)
         }
 
     }
