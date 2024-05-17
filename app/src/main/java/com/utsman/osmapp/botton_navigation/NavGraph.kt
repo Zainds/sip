@@ -22,48 +22,6 @@ import com.utsman.osmapp.R
 import kotlinx.coroutines.delay
 
 @Composable
-fun Navigation() {
-    val navController = rememberNavController()
-    NavHost(navController = navController,
-        startDestination = "splash_screen") {
-        composable("splash_screen") {
-            SplashScreen(navController = navController)
-        }
-        // Main Screen
-        composable("screen_1") {
-            Screen1()
-        }
-    }
-}
-@Composable
-fun SplashScreen(navController: NavController) {
-    val scale = remember {
-        Animatable(0f)
-    }
-
-    // AnimationEffect
-    LaunchedEffect(key1 = true) {
-        scale.animateTo(
-            targetValue = 0.7f,
-            animationSpec = tween(
-                durationMillis = 800,
-                easing = {
-                    OvershootInterpolator(4f).getInterpolation(it)
-                })
-        )
-        delay(3000L)
-        navController.navigate("screen_1")
-    }
-
-    // Image
-    Box(contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize()) {
-        Image(painter = painterResource(id = R.drawable.splash),
-            contentDescription = "Logo",
-            modifier = Modifier.scale(scale.value))
-    }
-}
-@Composable
 fun NavGraph(navHostController: NavHostController) {
     NavHost(navController = navHostController, startDestination = "screen_1" ){
         composable("screen_1"){

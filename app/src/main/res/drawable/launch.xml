@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <!-- Лого приложения - 144dp версия иконки приложения -->
+    <item>
+        <bitmap
+            android:src="@drawable/splash"
+            android:gravity="center"/>
+
+    </item>
+</selector>
