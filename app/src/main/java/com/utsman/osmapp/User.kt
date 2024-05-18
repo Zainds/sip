@@ -1,8 +1,10 @@
 package com.utsman.osmapp
 
 object User {
-    var name: String? = null
-    var sex: String? = null
-    var age: String? = null
-    var bio: String? = null
+    var name: String? = "Name"
+    var sex: Boolean? = null
+    var age: String? = "Age"
+    var bio: String? = "bio"
+    var email: String? = "emal"
+
 }

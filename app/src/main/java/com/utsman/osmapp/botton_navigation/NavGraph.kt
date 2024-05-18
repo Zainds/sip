@@ -23,12 +23,18 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun NavGraph(navHostController: NavHostController) {
-    NavHost(navController = navHostController, startDestination = "screen_1" ){
+    NavHost(navController = navHostController, startDestination = "login" ){
         composable("screen_1"){
             Screen1()
         }
         composable("screen_2"){
             Screen2()
+        }
+        composable("login"){
+            Auth(navController = navHostController)
+        }
+        composable("registration"){
+            Registr(navController = navHostController)
         }
     }
 }
