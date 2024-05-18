@@ -7,7 +7,7 @@ import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.Path
 
-interface RetroUserApi {
+interface RetroUserApi {//
     @Headers("Accept: application/json")
     @GET("point/{id}")
     suspend fun getPointById(@Header("Authorization") token:String,@Path("id") id: Int):Point
