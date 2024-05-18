@@ -141,7 +141,7 @@ fun Auth(navController: NavController) {
         })
         Button(onClick = {
                          if(login == "zainds" && password == "zov"){
-                             Toast.makeText(context, "SUCCESS", Toast.LENGTH_SHORT).show()
+                             navController.navigate(BottomItem.Screen1.route)
                          }
         }, modifier = Modifier.width(300.dp)) {
 
