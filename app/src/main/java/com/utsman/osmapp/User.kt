@@ -6,5 +6,6 @@ object User {
     var age: String? = "Age"
     var bio: String? = "bio"
     var email: String? = "emal"
+    var JWTtoken: String? = null
 
 }
