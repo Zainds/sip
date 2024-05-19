@@ -4,8 +4,6 @@ For install and usage, please check [documentation](https://utsmannn.github.io/o
 
 # Welcome
 
-The origin OpenStreetMaps Android visit [https://osmdroid.github.io/osmdroid/](https://osmdroid.github.io/osmdroid/) or [github wiki](https://github.com/osmdroid/osmdroid/wiki)
-
 This is a simple OpenStreetMap library for Android Compose. There are several basic functions commonly used, such as markers, polylines, and polygons. You can also add custom tiles. For more details, please refer to the sample project.
 
 ## Contributing
@@ -13,7 +11,7 @@ This library may not always be maintained, and I am open to anyone who wants to 
 
 ## License
 ```
-Copyright 2023 Muhammad Utsman
+Copyright 2024 Muhammad Ali
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
