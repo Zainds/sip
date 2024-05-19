@@ -10,6 +10,7 @@ import androidx.navigation.compose.rememberNavController
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MainScreen() {
+
     val navController = rememberNavController()
     Scaffold (
         bottomBar = {

@@ -5,6 +5,9 @@ import android.graphics.drawable.Drawable
 import android.health.connect.datatypes.units.Length
 import android.icu.text.ListFormatter.Width
 import android.media.Image
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.widget.NumberPicker
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -21,6 +24,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -74,6 +78,14 @@ import com.google.android.gms.common.api.ApiException
 import com.utsman.osmapp.MarkerPage
 import com.utsman.osmapp.R
 import com.utsman.osmapp.User
+import com.utsman.osmapp.buildRetroApi
+import com.utsman.osmapp.retrofit.LoginRequest
+import com.utsman.osmapp.retrofit.retrofitErrorHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import okhttp3.internal.wait
+import kotlin.math.log
 
 @Composable
 fun Screen1() {
@@ -96,6 +108,10 @@ fun Screen2() {
                 Text(
                     text = User.name.toString(),
                     fontSize = 30.sp
+                )
+                Text(
+                    text = User.email.toString(),
+                    fontSize = 20.sp
                 )
                 //Spacer(modifier = Mo)
                 Text(
@@ -126,12 +142,25 @@ fun Screen2() {
 }
 
 @Composable
-fun Auth(navController: NavController) {
+@Preview
+fun Auth(
+navController: NavController
+
+) {
+    var authSucces = false
+    val retroUserApi = buildRetroApi()
+    var jwt: String
     val context = LocalContext.current
-    var login by rememberSaveable { mutableStateOf("Text") }
-    var password by rememberSaveable { mutableStateOf("Text") }
-    Column {
-        Text("Логин")
+    var login by rememberSaveable { mutableStateOf("") }
+    var password by rememberSaveable { mutableStateOf("") }
+    Column (
+        modifier = Modifier
+            .fillMaxSize()
+            .wrapContentSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
+        Text("Почта")
         TextField(value = login, onValueChange ={
             login = it
         })
@@ -139,12 +168,38 @@ fun Auth(navController: NavController) {
         TextField(value = password, onValueChange ={
             password = it
         })
-        Button(onClick = {
-                         if(login == "zainds" && password == "zov"){
-                             navController.navigate(BottomItem.Screen1.route)
-                         }
-        }, modifier = Modifier.width(300.dp)) {
+        Button(
+            onClick = {
 
+                CoroutineScope(Dispatchers.IO).launch {
+
+                    try {
+                        val jwt = retroUserApi.loginByNamePas(
+                            LoginRequest(login, password)
+
+                        )
+                        Log.d("RETR", jwt)
+                        User.JWTtoken = jwt
+                        User.email = login
+                        authSucces = true
+                        navController.navigate("screen_1")
+                    }catch (e: Exception){
+                        e.message?.let { Log.d("RETR", it) }
+                    }
+
+
+                }
+                Handler(Looper.getMainLooper()).postDelayed(
+                    {
+                        if(authSucces)navController.navigate("screen_1") // This method will be executed once the timer is over
+                    },
+                    300 // value in milliseconds
+                )
+                if(authSucces)navController.navigate("screen_1")
+
+                      },
+            modifier = Modifier.width(120.dp)) {
+        Text(text = "Войти")
 
     }
         ClickableText(
@@ -156,10 +211,9 @@ fun Auth(navController: NavController) {
 }
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
-@Preview
 @Composable
 fun Registr(navController: NavController){
-    val options = listOf("Male", "Female")
+    val options = listOf("Мужской", "Женский")
     var selectedOptionText by remember { mutableStateOf(options[0]) }
     val possibleValues = listOf("Male", "Female")
     var expanded by remember { mutableStateOf(false) }
@@ -181,21 +235,21 @@ fun Registr(navController: NavController){
             onValueChange = {
                 login = it
             },
-            label = { Text("Login") },
+            label = { Text("Имя") },
 
             )
         TextField(value = email,
             onValueChange = {
                             email = it
             },
-            label = { Text("Email") },
+            label = { Text("Почта") },
 
             )
         TextField(value = age,
             onValueChange = {
                 age = it
             },
-            label = { Text("Age") },
+            label = { Text("Возраст") },
 
             )
         TextField(value = password,
@@ -203,7 +257,7 @@ fun Registr(navController: NavController){
                 password = it
             },
             label = {
-                Text("Password")
+                Text("Пароль")
                     },
             )
 
@@ -217,7 +271,7 @@ fun Registr(navController: NavController){
                 readOnly = true,
                 value = selectedOptionText,
                 onValueChange = { },
-                label = { Text("Sex") },
+                label = { Text("Пол") },
                 trailingIcon = {
                     ExposedDropdownMenuDefaults.TrailingIcon(
                         expanded = expanded
@@ -251,23 +305,30 @@ fun Registr(navController: NavController){
             bio = it
         },
             label = {
-                Text("BIO")
+                Text("БИО")
             },
         )
         Button(
             onClick = {
-                User.sex = sex
-                User.name = login
-                User.age = age
-                User.email = email
-                User.bio = bio
-                // switch screen to main
-                navController.navigate(BottomItem.Screen1.route)
+                val retroUserApi = buildRetroApi()
+                if (login != "" && age != "" && email != "" && bio != "" && password != ""){
+                    User.sex = sex
+                    User.name = login
+                    User.age = age
+                    User.email = email
+                    User.bio = bio
+                    // switch screen to main
+                    navController.navigate("screen_2")
+                }else{
+                    Toast.makeText(context, "Заполните все поля", Toast.LENGTH_LONG).show()
+                }
+
+
 
             },
-            modifier = Modifier.width(120.dp),
+            modifier = Modifier.width(200.dp),
         ) {
-            Text(text = "registrate")
+            Text(text = "Зарегистрироваться")
         }
         
     }

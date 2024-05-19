@@ -9,5 +9,6 @@ object Coordinates {
     val opera = GeoPoint(53.336344, 83.778455)
     val zazhigalka = GeoPoint(53.338189, 83.773354)
     val charlie = GeoPoint(53.349370, 83.762969)
+    val izumrud = GeoPoint(53.356923, 83.783103)
 
 }

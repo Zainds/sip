@@ -25,29 +25,38 @@ import com.utsman.osmandcompose.OpenStreetMap
 import com.utsman.osmandcompose.model.LabelProperties
 import com.utsman.osmandcompose.rememberCameraState
 import com.utsman.osmandcompose.rememberMarkerState
+import com.utsman.osmapp.retrofit.PointRequest
+import org.osmdroid.util.GeoPoint
 
 @Composable
 fun MarkerPage() {
     val context = LocalContext.current
 
+
     val cameraState = rememberCameraState {
         geoPoint = Coordinates.barnaul
-        zoom = 12.0
+        zoom = 15.0
     }
 
     val operaMarkerState = rememberMarkerState(
         geoPoint = Coordinates.opera,
         rotation = 90f
     )
+
     
     val charlieMarkerState = rememberMarkerState(
         geoPoint = Coordinates.charlie,
+        rotation = 90f
+    )
+    val izumrudMarkerState = rememberMarkerState(
+        geoPoint = Coordinates.izumrud,
         rotation = 90f
     )
 
     val depokIcon: Drawable? by remember {
         mutableStateOf(context.getDrawable(R.drawable.gps_dot_red))
     }
+
 
     val operaLabelProperties = remember {
         mutableStateOf(
@@ -65,21 +74,27 @@ fun MarkerPage() {
         cameraState = cameraState,
 
     ) {
-        Marker(
+        MarkerLabeled(
             state = operaMarkerState,
             icon = depokIcon,
             title = "Опера",
-            snippet = "Клубешник"
+            snippet = "Клубешник",
+            label = "Опера",
+            labelProperties = operaLabelProperties.value
+
         ) {
             Column(
                 modifier = Modifier
                     .size(100.dp)
-                    .background(color = androidx.compose.ui.graphics.Color.Gray, shape = RoundedCornerShape(7.dp)),
+                    .background(
+                        color = androidx.compose.ui.graphics.Color.Gray,
+                        shape = RoundedCornerShape(7.dp)
+                    ),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(text = it.title)
-                Text(text = it.snippet, fontSize = 10.sp)
+                Text(text = it.snippet, fontSize = 17.sp)
             }
         }
 
@@ -88,20 +103,46 @@ fun MarkerPage() {
             state = charlieMarkerState,
             icon = depokIcon,
             title = "Чарли",
-            snippet = "Стрипуха",
+            snippet = "Сосисочная вечеринка",
             label = "Чарли",
             labelProperties = operaLabelProperties.value
         ){
             Column(
                 modifier = Modifier
                     .size(100.dp)
-                    .background(color = androidx.compose.ui.graphics.Color.Gray, shape = RoundedCornerShape(7.dp)),
+                    .background(
+                        color = androidx.compose.ui.graphics.Color.Gray,
+                        shape = RoundedCornerShape(7.dp)
+                    ),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(text = it.title)
-                Text(text = it.snippet, fontSize = 10.sp)
+                Text(text = it.snippet, fontSize = 17.sp)
             }
         }
+        MarkerLabeled (
+            state = izumrudMarkerState,
+            icon = depokIcon,
+            title = "Изумрудный",
+            snippet = "Шашлычок",
+            label = "Изумрудный",
+            labelProperties = operaLabelProperties.value
+        ){
+            Column(
+                modifier = Modifier
+                    .size(100.dp)
+                    .background(
+                        color = androidx.compose.ui.graphics.Color.Gray,
+                        shape = RoundedCornerShape(7.dp)
+                    ),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(text = it.title)
+                Text(text = it.snippet, fontSize = 17.sp)
+            }
+        }
+
     }
 }

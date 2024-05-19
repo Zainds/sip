@@ -5,9 +5,14 @@ data class RegistrationRequest(
     val password: String,
     var email:String,
     var age: Int,
-    var gender: Boolean
+    var gender: Boolean,
+    var about_me: String
 )
 data class LoginRequest(
-    var name: String,
+    var email: String,
     var password: String
+)
+data class PointRequest(
+    var latitude: String,
+    var longitude: String
 )
