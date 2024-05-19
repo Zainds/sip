@@ -7,7 +7,7 @@ For install and usage, please check [documentation](https://utsmannn.github.io/o
 This is a simple OpenStreetMap library for Android Compose. There are several basic functions commonly used, such as markers, polylines, and polygons. You can also add custom tiles. For more details, please refer to the sample project.
 
 ## Contributing
-This library may not always be maintained, and I am open to anyone who wants to contribute by reporting bugs, making pull requests, or requesting new features in the future.
+I am open to anyone who wants to contribute by reporting bugs, making pull requests, or requesting new features in the future.
 
 ## License
 ```
